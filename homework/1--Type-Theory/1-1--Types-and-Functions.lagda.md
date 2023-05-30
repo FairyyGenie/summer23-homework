@@ -154,7 +154,7 @@ an identity function `A → A` that works for any type `A` at all.
 
 ```
 idE : (A : Type) → A → A
-idE A x = x
+idE A x = {!   !}
 ```
 
 Let's understand why the type of `id` is a bit more complicated than
@@ -209,7 +209,7 @@ compose : {A : Type} {B : Type} {C : Type}
     → (A → B)
     → (A → C)
 -- Exercise:
-compose g f = {!!}
+compose g f x = g(f x)
 ```
 
 Agda considers definitions with underscores specially, and lets us
@@ -223,10 +223,10 @@ Try implementing the following functions.
 
 ```
 flip : {A B C : Type}
-     → (A → B → C)
-     → (B → A → C)
+     → (A → (B → C))
+     → (B → (A → C))
 -- Exercise:
-flip = {!!}
+flip h = λ b a → h a b  
 
 -- Should use the provided function on the argument twice.
 apply-twice : {A : Type}
@@ -234,7 +234,7 @@ apply-twice : {A : Type}
      → A
      → A
 -- Exercise:
-apply-twice = {!!}
+apply-twice f a = f(f(a))
 ```
 
 * Pen and paper exercise: Check that `f ∘ id` and `id ∘ f` act the
@@ -281,11 +281,15 @@ type family
 ```
 id-family : Type → Type
 id-family A = A → A
+
+-- id′′: (A: Type) → id-family A
+-- id′′ A = {!!}
 ```
 
 Here is the full dependent composition.
 ```
-_∘_ : ∀ {A : Type} {B : A → Type} {C : (x : A) → B x → Type} (g : {a : A} → (b : B a) → C a b) → (f : (a : A) → B a) → (a : A) → C a (f a)
+_∘_ : ∀ {A : Type} {B : A → Type} {C : (x : A) → B x → Type}
+ (g : {a : A} → (b : B a) → C a b) → (f : (a : A) → B a) → (a : A) → C a (f a)
 g ∘ f = λ x → g (f x)
 ```
 ## Pair types
@@ -436,3 +440,4 @@ idℓ : ∀ {ℓ} {A : Type ℓ} → A → A
 idℓ x = x
 ```
 But we won't need to make use of this for a while.
+ 
