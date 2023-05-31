@@ -42,7 +42,7 @@ not false = true
 ```
 
 Induction may seem like an odd name if you are used to "proof by
-induction" from your discrete math course, but we will see below that
+induction" from your discrete math course, but we will see in the next lecture that
 the induction principle for `ℕ` is basically the induction you are
 used to.
 
