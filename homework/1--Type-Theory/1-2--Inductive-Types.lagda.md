@@ -201,7 +201,7 @@ n · suc m = n · m + n
 
 -- exp : ℕ → ℕ → ℕ 
 -- -- exp n m = n ^ m 
--- exp n zero = {!   !}
+-- exp n zero = suc zero
 -- exp n (suc m) = {!   !}
 
 -- max : ℕ → ℕ → ℕ
@@ -308,7 +308,7 @@ to equivalence, but again we can't yet fully express that.
 ```
 ∅⊎-to : ∀ {ℓ} (A : Type ℓ) → ∅ ⊎ A → A
 -- Exercise:
-∅⊎-to A x = {!!}
+∅⊎-to A (inr b) = {!   !}
 
 ∅⊎-fro : ∀ {ℓ} (A : Type ℓ) → A → ∅ ⊎ A
 -- Exercise:
@@ -330,12 +330,14 @@ then negated):
 ```
 ℤ→ℕ⊎ℕ : ℤ → ℕ ⊎ ℕ
 -- Exercise:
-ℤ→ℕ⊎ℕ z = {!!}
+ℤ→ℕ⊎ℕ (pos n) = inl n  
+ℤ→ℕ⊎ℕ (negsuc n) = inr n
 
 
 ℕ⊎ℕ→ℤ : ℕ ⊎ ℕ → ℤ
 -- Exercise:
-ℕ⊎ℕ→ℤ z = {!!}
+ℕ⊎ℕ→ℤ (inl a) = pos a 
+ℕ⊎ℕ→ℤ (inr b) = negsuc b 
 ```
 
 We can define the various arithmetic operations of the
@@ -352,11 +354,15 @@ Now we can define the successor of integers which sends `z` to `z +
 ```
 sucℤ : ℤ → ℤ
 -- Exercise:
-sucℤ z = {!!}
+sucℤ (pos n) = pos (suc n)
+sucℤ (negsuc zero) = pos zero
+sucℤ (negsuc (suc n)) = negsuc n  
 
 predℤ : ℤ → ℤ
 -- Exercise:
-predℤ z = {!!}
+predℤ (pos zero) = negsuc zero
+predℤ (pos (suc n)) = pos n 
+predℤ (negsuc n) = negsuc (suc n)
 ```
 
 Now we turn our attention to defining addition of integers. Since the
