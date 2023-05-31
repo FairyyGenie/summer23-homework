@@ -1,6 +1,7 @@
 # Homework 1-1: Types and Functions
 
 ```
+{-# OPTIONS --allow-unsolved-metas #-}
 module homework.1--Type-Theory.1-1--Types-and-Functions where
 
 open import Cubical.Foundations.Prelude
@@ -416,7 +417,11 @@ functions `C → A` and `C → B`.
       → (C → B)
       → (C → A × B)
 -- Exercise:
-×-ump = {!!}
+×-ump f g = λ c → f c , g c
+-- ×-ump-inv-left : {A B C : Type}
+--                 → (C → A × B)
+--                 → (C → A)
+-- x-ump-inv-left f = fst ∙ f
 ```
 
 We will have a lot to say about universal properties in this course.

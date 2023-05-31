@@ -64,7 +64,10 @@ and `y` are `true`.
 ```
 _and_ : Bool → Bool → Bool
 -- Exercise:
-x and y = ?
+true and true = true
+true and false = false
+false and true = false
+false and false = false
 ```
 
 You don't have to split on all variables at once. Give a definition of
@@ -72,8 +75,10 @@ the logical "or" by case splitting only on the variable `x`:
 ```
 _or_ : Bool → Bool → Bool
 -- Exercise:
-true or y = ?
-false or y = ?
+true or true = true
+true or false = true
+false or true = true
+false or false = false
 ```
 
 Here is the definition of logical implication. There is a strange
@@ -191,7 +196,17 @@ zero    + m = m
 
 _·_ : ℕ → ℕ → ℕ
 -- Exercise:
-n · m = {!!}
+n · zero = zero 
+n · suc m = n · m + n 
+
+-- exp : ℕ → ℕ → ℕ 
+-- -- exp n m = n ^ m 
+-- exp n zero = {!   !}
+-- exp n (suc m) = {!   !}
+
+-- max : ℕ → ℕ → ℕ
+-- max = {!   !}
+
 ```
 
 We can also define a "predecessor" operation, which partially undoes the successor suc : ℕ → ℕ. Of course, it can't fully undo it, since 0 has nowhere to go but to itself.
@@ -224,14 +239,17 @@ We can define the length of a list by recursion
 ```
 length : {A : Type} → List A → ℕ
 -- Exercise:
-length L = {!!}
+length [] = zero 
+length (x :: L) = suc (length L) 
 ```
 
 A natural number can be seen as a list of tally marks.
 ```
 ℕ→List⊤ : ℕ → List ⊤
 -- Exercise:
-ℕ→List⊤ n = {!!}
+ℕ→List⊤ zero =  []
+-- ℕ→List⊤ (suc n) = ([] ++ ( tt :: [] )) ++ ℕ→List⊤ n 
+ℕ→List⊤ (suc n) = tt :: ℕ→List⊤ n 
 ```
 
 Together with `length : List ⊤ → ℕ`, we have a bijection between the
@@ -270,11 +288,13 @@ maps to that effect:
 ```
 Bool→⊤⊎⊤ : Bool → ⊤ ⊎ ⊤
 -- Exercise:
-Bool→⊤⊎⊤ b = {!!}
+Bool→⊤⊎⊤ true =  inl tt
+Bool→⊤⊎⊤ false = inr tt  
 
 ⊤⊎⊤→Bool : ⊤ ⊎ ⊤ → Bool
 -- Exercise:
-⊤⊎⊤→Bool c = {!!}
+⊤⊎⊤→Bool (inl a) = true
+⊤⊎⊤→Bool (inr b) = false
 ```
 
 Clearly, if you turned a `Bool` into an element of `⊤ ⊎ ⊤` and then
