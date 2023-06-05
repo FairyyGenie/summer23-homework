@@ -1,6 +1,7 @@
 
 # Homework 1-3: Propositions as Types 
 ```
+{-# OPTIONS --allow-unsolved-metas #-}
 module homework.1--Type-Theory.1-3--Propositions-as-Types where
 
 open import Cubical.Foundations.Prelude

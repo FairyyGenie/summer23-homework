@@ -1,6 +1,7 @@
 # 1-- Extras
 
 ```
+{-# OPTIONS --allow-unsolved-metas #-}
 module homework.1--Type-Theory.1-E--Extras where
 
 -- In order to use the Agda builting naturals, we will be importing from the cubical library instead of the data types defined in this course

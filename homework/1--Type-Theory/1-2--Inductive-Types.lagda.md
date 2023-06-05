@@ -1,5 +1,6 @@
 # Homework 1-2: Inductive Types
 ```
+{-# OPTIONS --allow-unsolved-metas #-}
 module homework.1--Type-Theory.1-2--Inductive-Types where
 
 open import Cubical.Foundations.Prelude
@@ -308,11 +309,11 @@ to equivalence, but again we can't yet fully express that.
 ```
 ∅⊎-to : ∀ {ℓ} (A : Type ℓ) → ∅ ⊎ A → A
 -- Exercise:
-∅⊎-to A (inr b) = {!   !}
+∅⊎-to A (inr b) = b
 
 ∅⊎-fro : ∀ {ℓ} (A : Type ℓ) → A → ∅ ⊎ A
 -- Exercise:
-∅⊎-fro A a = {!!}
+∅⊎-fro A a = inr a
 ```
 
 Now we can describe the integers. An integer is either a natural
