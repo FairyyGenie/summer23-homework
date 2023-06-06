@@ -398,13 +398,13 @@ uncurry : {A : Type} → {B : A → Type} → {C : (x : A) → B x → Type}
   → ((x : A) → (y : B x) → C x y)
   → (p : Σ[ x ∈ A ] B x) → C (fst p) (snd p)
 -- Exercise
-uncurry f p = {!!}
+uncurry f p = f (my-fstΣ p) (my-sndΣ p)
 
 curry : {A : Type} → {B : A → Type} → {C : (x : A) → B x → Type}
   → ((p : Σ[ x ∈ A ] B x) → C (fst p) (snd p))
   → (x : A) → (y : B x) → C x y
 -- Exercise
-curry f x y = {!!}
+curry f x y = f (x , y)
 ```
 
 Finally in this section, we have the "universal mapping property" of
@@ -418,10 +418,11 @@ functions `C → A` and `C → B`.
       → (C → A × B)
 -- Exercise:
 ×-ump f g = λ c → f c , g c
--- ×-ump-inv-left : {A B C : Type}
---                 → (C → A × B)
---                 → (C → A)
--- x-ump-inv-left f = fst ∙ f
+
+×-ump-inv-left : {A B C : Type}
+                → (C → A × B)
+                → (C → A)
+×-ump-inv-left f = fst ∘ f
 ```
 
 We will have a lot to say about universal properties in this course.
