@@ -1,5 +1,6 @@
 # Homework 2-1: Paths and the Interval
 ```
+{-# OPTIONS --allow-unsolved-metas #-}
 module homework.2--Paths-and-Identifications.2-1--Paths where
 
 open import Cubical.Core.Primitives public
@@ -500,7 +501,7 @@ Give it a try in the reverse:
 ```
 false≢true : ¬ false ≡ true
 -- Exercise
-false≢true p = {!!}
+false≢true p = subst (λ b → false ≡Bool b) p tt
 ```
 
 
@@ -513,10 +514,16 @@ the same thing as the equalities we define in 1-3!
 ≡iff≡Bool a b = (to a b) , (fro a b)
   where
     to : (x y : Bool) → (x ≡ y) → (x ≡Bool y)
-    to x y = {!!}
-
+    to true true =  λ _ → tt 
+    to true false = true≢false 
+    to false true = false≢true 
+    to false false = λ _ → tt 
+    
     fro : (x y : Bool) → (x ≡Bool y) → (x ≡ y)
-    fro x y = {!!}
+    fro true true =  λ _ → refl 
+    fro true false = ∅-rec  
+    fro false true =  ∅-rec 
+    fro false false =  λ _ → refl 
 ```
 
 You might be wondering whether we could promote the two maps `to` and
@@ -551,10 +558,35 @@ inl a ≡⊎ inr b = ∅
 inr b ≡⊎ inl a = ∅
 inr b1 ≡⊎ inr b2 = b1 ≡ b2
 
+refl⊎ : { A B : Type } ( x : A ⊎ B ) → x ≡⊎ x
+refl⊎ (inl a) = refl
+refl⊎ (inr b) = refl
+
 -- Exercise
 -- ≡iff≡⊎ x y = ?
 -- Hint: can you see a way to define the forward direction using subst?
 ≡iff≡⊎ : {A B : Type} (x y : A ⊎ B) → (x ≡ y) iffP (x ≡⊎ y)
-≡iff≡⊎ x y = {!!}
+≡iff≡⊎ x y = (to x y), (fro x y)
+  where 
+    unl : (default : A) (x : A ⊎ B ) → A
+    unl _ (inl a ) = a
+    unl default (inr _ ) = default
+
+    unr : (default : B) (x : A ⊎ B ) → B
+    unr _ (inr b ) = b
+    unr default (inl _ ) = default
+
+    to : (x y : A ⊎ B) → (x ≡ y) → (x ≡⊎ y)
+    to (inl a) (inl a₁) p =  cong (unl a) p 
+    to (inl a) (inr b) p =   subst (λ z → ( inl a ) ≡⊎ z) p refl 
+    to (inr b) (inl a) p =   subst (λ z → ( inr b ) ≡⊎ z) p refl 
+    to (inr b) (inr b₁) p = cong (unr b) p 
+
+    to' : (x y : A ⊎ B) → (x ≡ y) → (x ≡⊎ y)
+    to' x y p = subst (λ z → x ≡⊎ z) p (refl⊎ x)
+
+    fro : (x y : A ⊎ B) → (x ≡⊎ y) → (x ≡ y)
+    fro (inl a) (inl a₁) p = cong inl p 
+    fro (inr b) (inr b₁) p = cong inr p 
 ```
  
