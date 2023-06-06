@@ -1,7 +1,7 @@
 # Homework 1-1: Types and Functions
 
 ```
-{-# OPTIONS --allow-unsolved-metas #-}
+
 module homework.1--Type-Theory.1-1--Types-and-Functions where
 
 open import Cubical.Foundations.Prelude
@@ -155,7 +155,7 @@ an identity function `A → A` that works for any type `A` at all.
 
 ```
 idE : (A : Type) → A → A
-idE A x = {!   !}
+idE A x = x
 ```
 
 Let's understand why the type of `id` is a bit more complicated than
@@ -283,8 +283,8 @@ type family
 id-family : Type → Type
 id-family A = A → A
 
--- id′′: (A: Type) → id-family A
--- id′′ A = {!!}
+id'' : (A : Type) → id-family A
+id'' A a =  a
 ```
 
 Here is the full dependent composition.
@@ -356,13 +356,13 @@ curry3 : {A B C D : Type}
   → (((A × B) × C) → D)
   → (A → B → C → D)
 -- Exercise:
-curry3 f = {!!}
+curry3 f x y z = f ((x , y), z)
 
 uncurry3 : {A B C D : Type}
   → (A → B → C → D)
   → (((A × B) × C) → D)
 -- Exercise:
-uncurry3 f = {!!}
+uncurry3 f p = f (fst (fst p)) (snd (fst p)) (snd p)
 ```
 
 Just as type theory generalises function types to dependent function

@@ -536,14 +536,25 @@ We can do the same for the other equalities we covered in 1-3.
 -- Exercise
 -- to x y p = ?
 -- fro x y p = ?
+
+-- integer equal exercise 
+
 ≡iff≡ℕ : (a b : ℕ) → (a ≡ b) iffP (a ≡ℕ b)
 ≡iff≡ℕ a b = (to a b) , (fro a b)
   where
     to : (x y : ℕ) → (x ≡ y) → (x ≡ℕ y)
-    to x y = {!!}
+    to zero zero p = tt 
+    to zero (suc y) p = subst isZeroP p tt
+    -- to zero (suc y) p = subst (λ z → zero ≡ℕ z ) p tt
+    to (suc x) zero p = subst ((suc x ) ≡ℕ_) p (≡ℕ-refl x)
+    to (suc x) (suc y) p = to x y (cong predℕ p)
+
+    to' : (x y : ℕ) → (x ≡ y) → (x ≡ℕ y)
+    to' x y p = subst (x ≡ℕ_ ) p (≡ℕ-refl x)
 
     fro : (x y : ℕ) → (x ≡ℕ y) → (x ≡ y)
-    fro x y = {!!}
+    fro zero zero p = refl
+    fro (suc x) (suc y) p = cong suc (fro x y p)
 ```
 
 Now that we have a notion of sameness - paths - valid in all types, we
@@ -589,4 +600,4 @@ refl⊎ (inr b) = refl
     fro (inl a) (inl a₁) p = cong inl p 
     fro (inr b) (inr b₁) p = cong inr p 
 ```
- 
+  

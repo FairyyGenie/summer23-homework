@@ -57,13 +57,16 @@ principle for paths:
 -- To see what the expression evaluates to,
 -- uncomment this block and move the cursor into the goal
 -- and press `C-c C-n`. (`C-n` for "normalise").
-{-
-_ : I
-_ = {! ~ i0!}
--}
+
+{- _ : I
+_ =  ~ i1 -}
+
 
 sym : x ≡ y → y ≡ x
 sym p i = p (~ i)
+
+sym' : x ≡ y → y ≡ x
+sym' {x = x} p = subst (λ z → z ≡ x ) p refl 
 ```
 
 Now, there's a fairly evident question we can ask: what happens if we
