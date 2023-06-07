@@ -1,6 +1,5 @@
 # Homework 1-2: Inductive Types
 ```
-{-# OPTIONS --allow-unsolved-metas #-}
 module homework.1--Type-Theory.1-2--Inductive-Types where
 
 open import Cubical.Foundations.Prelude
@@ -43,7 +42,7 @@ not false = true
 ```
 
 Induction may seem like an odd name if you are used to "proof by
-induction" from your discrete math course, but we will see in the next lecture that
+induction" from your discrete math course, but we will see below that
 the induction principle for `ℕ` is basically the induction you are
 used to.
 
@@ -65,10 +64,9 @@ and `y` are `true`.
 ```
 _and_ : Bool → Bool → Bool
 -- Exercise:
-true and true = true
-true and false = false
-false and true = false
-false and false = false
+-- x and y = {!!}
+true and x = x
+false and x = false
 ```
 
 You don't have to split on all variables at once. Give a definition of
@@ -76,10 +74,10 @@ the logical "or" by case splitting only on the variable `x`:
 ```
 _or_ : Bool → Bool → Bool
 -- Exercise:
-true or true = true
-true or false = true
-false or true = true
-false or false = false
+-- true or y = {!!}
+-- false or y = {!!}
+true or y = true
+false or y = y
 ```
 
 Here is the definition of logical implication. There is a strange
@@ -90,8 +88,7 @@ if it seems unintuitive.
 
 ```
 _⇒_ : Bool → Bool → Bool
-true ⇒ true  = true
-true ⇒ false = false
+true ⇒ x  = x
 -- Here we use a "wildcard" (the underscore "_") to say that the
 -- definition we are given is valid for anything we put in that spot.
 false ⇒ _    = true
@@ -197,17 +194,9 @@ zero    + m = m
 
 _·_ : ℕ → ℕ → ℕ
 -- Exercise:
-n · zero = zero 
-n · suc m = n · m + n 
-
--- exp : ℕ → ℕ → ℕ 
--- -- exp n m = n ^ m 
--- exp n zero = suc zero
--- exp n (suc m) = {!   !}
-
--- max : ℕ → ℕ → ℕ
--- max = {!   !}
-
+-- n · m = {!!}
+zero · m = zero
+suc n · m = m + (n · m)
 ```
 
 We can also define a "predecessor" operation, which partially undoes the successor suc : ℕ → ℕ. Of course, it can't fully undo it, since 0 has nowhere to go but to itself.
@@ -240,17 +229,18 @@ We can define the length of a list by recursion
 ```
 length : {A : Type} → List A → ℕ
 -- Exercise:
-length [] = zero 
-length (x :: L) = suc (length L) 
+-- length L = {!!}
+length [] = zero
+length (x :: L) = suc (length L)
 ```
 
 A natural number can be seen as a list of tally marks.
 ```
 ℕ→List⊤ : ℕ → List ⊤
 -- Exercise:
-ℕ→List⊤ zero =  []
--- ℕ→List⊤ (suc n) = ([] ++ ( tt :: [] )) ++ ℕ→List⊤ n 
-ℕ→List⊤ (suc n) = tt :: ℕ→List⊤ n 
+-- ℕ→List⊤ n = {!!}
+ℕ→List⊤ zero = []
+ℕ→List⊤ (suc n) = tt :: (ℕ→List⊤ n)
 ```
 
 Together with `length : List ⊤ → ℕ`, we have a bijection between the
@@ -289,13 +279,15 @@ maps to that effect:
 ```
 Bool→⊤⊎⊤ : Bool → ⊤ ⊎ ⊤
 -- Exercise:
-Bool→⊤⊎⊤ true =  inl tt
-Bool→⊤⊎⊤ false = inr tt  
+-- Bool→⊤⊎⊤ b = {!!}
+Bool→⊤⊎⊤ true = inl tt
+Bool→⊤⊎⊤ false = inr tt
 
 ⊤⊎⊤→Bool : ⊤ ⊎ ⊤ → Bool
 -- Exercise:
-⊤⊎⊤→Bool (inl a) = true
-⊤⊎⊤→Bool (inr b) = false
+-- ⊤⊎⊤→Bool c = {!!}
+⊤⊎⊤→Bool (inl x) = true
+⊤⊎⊤→Bool (inr x) = false
 ```
 
 Clearly, if you turned a `Bool` into an element of `⊤ ⊎ ⊤` and then
@@ -309,10 +301,13 @@ to equivalence, but again we can't yet fully express that.
 ```
 ∅⊎-to : ∀ {ℓ} (A : Type ℓ) → ∅ ⊎ A → A
 -- Exercise:
-∅⊎-to A (inr b) = b
+-- ∅⊎-to A x = {!!}
+∅⊎-to A (inl ())
+∅⊎-to A (inr x) = x
 
 ∅⊎-fro : ∀ {ℓ} (A : Type ℓ) → A → ∅ ⊎ A
 -- Exercise:
+-- ∅⊎-fro A a = {!!}
 ∅⊎-fro A a = inr a
 ```
 
@@ -331,14 +326,16 @@ then negated):
 ```
 ℤ→ℕ⊎ℕ : ℤ → ℕ ⊎ ℕ
 -- Exercise:
-ℤ→ℕ⊎ℕ (pos n) = inl n  
+-- ℤ→ℕ⊎ℕ z = {!!}
+ℤ→ℕ⊎ℕ (pos n) = inl n
 ℤ→ℕ⊎ℕ (negsuc n) = inr n
 
 
 ℕ⊎ℕ→ℤ : ℕ ⊎ ℕ → ℤ
 -- Exercise:
-ℕ⊎ℕ→ℤ (inl a) = pos a 
-ℕ⊎ℕ→ℤ (inr b) = negsuc b 
+-- ℕ⊎ℕ→ℤ z = {!!}
+ℕ⊎ℕ→ℤ (inl n) = pos n
+ℕ⊎ℕ→ℤ (inr n) = negsuc n
 ```
 
 We can define the various arithmetic operations of the
@@ -355,14 +352,16 @@ Now we can define the successor of integers which sends `z` to `z +
 ```
 sucℤ : ℤ → ℤ
 -- Exercise:
+-- sucℤ z = {!!}
 sucℤ (pos n) = pos (suc n)
 sucℤ (negsuc zero) = pos zero
-sucℤ (negsuc (suc n)) = negsuc n  
+sucℤ (negsuc (suc n)) = negsuc n
 
 predℤ : ℤ → ℤ
 -- Exercise:
+-- predℤ z = {!!}
 predℤ (pos zero) = negsuc zero
-predℤ (pos (suc n)) = pos n 
+predℤ (pos (suc n)) = pos n
 predℤ (negsuc n) = negsuc (suc n)
 ```
 
@@ -374,11 +373,15 @@ these cases out.
 ```
 _+pos_ : ℤ → ℕ → ℤ
 -- Exercise:
-z +pos n = {!!}
+-- z +pos n = {!!}
+z +pos zero = z
+z +pos suc n = sucℤ (z +pos n)
 
 _+negsuc_ : ℤ → ℕ → ℤ
 -- Exercise:
-z +negsuc n = {!!}
+-- z +negsuc n = {!!}
+z +negsuc zero = predℤ z
+z +negsuc suc n = predℤ (z +negsuc n)
 
 _+ℤ_ : ℤ → ℤ → ℤ
 m +ℤ pos n = m +pos n
@@ -391,7 +394,10 @@ terms of addition and negation.
 ```
 -_ : ℤ → ℤ
 -- Exercise:
-- z = {!!}
+-- - z = {!!}
+- pos zero = pos zero
+- pos (suc n) = negsuc n
+- negsuc n = pos (suc n)
 
 _-_ : ℤ → ℤ → ℤ
 m - n = m +ℤ (- n)
@@ -402,8 +408,13 @@ of integers.
 ```
 _·ℤ_ : ℤ → ℤ → ℤ
 -- Exercise:
-n ·ℤ m = {!!}
+-- n ·ℤ m = {!!}
+pos zero ·ℤ m = pos zero
+pos (suc n) ·ℤ m = pos n +ℤ (pos n) ·ℤ m
+negsuc zero ·ℤ m = - m
+negsuc (suc n) ·ℤ m = - m +ℤ (negsuc n) ·ℤ m -- -(1+(1+n)) · m = -m + -(1+n) · m    
 ```
+
 
 # Extra:
 

@@ -537,7 +537,6 @@ We can do the same for the other equalities we covered in 1-3.
 -- to x y p = ?
 -- fro x y p = ?
 
--- integer equal exercise 
 
 ≡iff≡ℕ : (a b : ℕ) → (a ≡ b) iffP (a ≡ℕ b)
 ≡iff≡ℕ a b = (to a b) , (fro a b)
@@ -600,4 +599,32 @@ refl⊎ (inr b) = refl
     fro (inl a) (inl a₁) p = cong inl p 
     fro (inr b) (inr b₁) p = cong inr p 
 ```
-  
+
+## Computing the paths in the integers
+-- integer equal exercise  
+
+```
+_≡ℤ_ : ℤ → ℤ → Type
+
+pos n ≡ℤ pos m = n ≡ℕ m 
+pos n ≡ℤ negsuc m = ∅ 
+negsuc n ≡ℤ pos m = ∅ 
+negsuc n ≡ℤ negsuc m = n ≡ℕ m
+
+≡ℤ-refl :  { a : ℤ } → a ≡ℤ a
+≡ℤ-refl {pos n} = ≡ℕ-refl n
+≡ℤ-refl {negsuc n} = ≡ℕ-refl n
+
+≡iff≡ℤ : (a b : ℤ) → (a ≡ b) iffP (a ≡ℤ b)
+≡iff≡ℤ a b = (to a b) , (fro a b)
+  where
+    to : (x y :  ℤ) → (x ≡ y) → (x ≡ℤ y)
+    to x y p = subst (x ≡ℤ_ ) p ≡ℤ-refl
+
+    fro : (x y :  ℤ) → (x ≡ℤ y) → (x ≡ y) 
+    fro (pos n) (pos m) p = cong pos (≡iff≡ℕ n m .snd p)
+    fro (negsuc n) (negsuc m) p = cong negsuc (≡iff≡ℕ n m .snd p)
+```
+
+
+
