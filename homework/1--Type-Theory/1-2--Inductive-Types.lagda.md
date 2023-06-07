@@ -1,6 +1,6 @@
 # Homework 1-2: Inductive Types
 ```
-{-# OPTIONS --allow-unsolved-metas #-}
+
 module homework.1--Type-Theory.1-2--Inductive-Types where
 
 open import Cubical.Foundations.Prelude
@@ -200,10 +200,10 @@ _·_ : ℕ → ℕ → ℕ
 n · zero = zero 
 n · suc m = n · m + n 
 
--- exp : ℕ → ℕ → ℕ 
--- -- exp n m = n ^ m 
--- exp n zero = suc zero
--- exp n (suc m) = {!   !}
+exp : ℕ → ℕ → ℕ 
+-- exp n m = n ^ m 
+exp n zero = suc zero
+exp n (suc m) = n · exp n m
 
 -- max : ℕ → ℕ → ℕ
 -- max = {!   !}
@@ -374,11 +374,13 @@ these cases out.
 ```
 _+pos_ : ℤ → ℕ → ℤ
 -- Exercise:
-z +pos n = {!!}
+z +pos zero = z
+z +pos suc n = sucℤ (z +pos n)
 
 _+negsuc_ : ℤ → ℕ → ℤ
 -- Exercise:
-z +negsuc n = {!!}
+z +negsuc zero = predℤ z
+z +negsuc suc n = predℤ (z +negsuc n)
 
 _+ℤ_ : ℤ → ℤ → ℤ
 m +ℤ pos n = m +pos n
@@ -391,7 +393,9 @@ terms of addition and negation.
 ```
 -_ : ℤ → ℤ
 -- Exercise:
-- z = {!!}
+- pos zero = pos zero
+- pos (suc n) = negsuc n
+- negsuc n = pos (suc n)
 
 _-_ : ℤ → ℤ → ℤ
 m - n = m +ℤ (- n)
@@ -402,7 +406,16 @@ of integers.
 ```
 _·ℤ_ : ℤ → ℤ → ℤ
 -- Exercise:
-n ·ℤ m = {!!}
+pos zero ·ℤ m = pos zero
+pos (suc n) ·ℤ m = m +ℤ (pos n) ·ℤ m
+negsuc zero ·ℤ m = - m
+negsuc (suc n) ·ℤ m = - m +ℤ (negsuc n) ·ℤ m
+
+-- pos zero ·ℤ m = pos zero
+-- pos (suc n) ·ℤ m = pos n +ℤ (pos n) ·ℤ m
+-- negsuc zero ·ℤ m = - m
+-- negsuc (suc n) ·ℤ m = - m +ℤ (negsuc n) ·ℤ m 
+-- -(1+(1+n)) · m = -m + -(1+n) · m  
 ```
 
 # Extra:
@@ -416,4 +429,4 @@ as `a + (b · c)`), and whether it associates to the left or the right
 infix  8 -_
 infixl 7 _·_ _·ℤ_
 infixl 6 _+_ _+ℤ_ _-_
-```
+``` 
