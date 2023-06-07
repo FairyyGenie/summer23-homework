@@ -148,6 +148,7 @@ P(ath).
 ```
 path-over-path : (A : I → Type) (a : A i0) (b : A i1) → Type
 path-over-path A a b = PathP A a b
+-- A a b = A [a ≡ b]
 ```
 As with paths, where `p : x ≡ y` is a function `I → A` with `p i0 = x`
 by and `p i1 = y` by definition, if we have `p : PathP A a b`, then
@@ -170,13 +171,13 @@ module _ {A : Type ℓ} {B : A → Type ℓ'}
   where
 
   -- Exercise:
-  ΣPathP' : Σ[ p ∈ (fst x ≡ fst y) ] PathP {!!} {!!} {!!}
+  ΣPathP' : Σ[ p ∈ (fst x ≡ fst y) ] PathP (λ i → B (p i)) (snd x) (snd y)
           → x ≡ y
   ΣPathP' eq i = fst eq i , snd eq i
 
   -- Exercise:
   PathPΣ' : x ≡ y
-          → Σ[ p ∈ (fst x ≡ fst y) ] PathP {!!} {!!} {!!}
+          → Σ[ p ∈ (fst x ≡ fst y) ] PathP (λ i → B (p i)) (snd x) (snd y)
   PathPΣ' eq = (λ i → fst (eq i)) , (λ i → snd (eq i))
 
 ```
@@ -191,13 +192,13 @@ module _ {A : I → Type ℓ} {B : (i : I) → A i → Type ℓ'}
   where
 
   -- Exercise:
-  ΣPathP : Σ[ p ∈ PathP {!!} {!!} {!!} ] PathP {!!} {!!} {!!}
+  ΣPathP : Σ[ p ∈ PathP A (fst x) (fst y) ] PathP (λ i → B i (p i)) (snd x) (snd y)
          → PathP (λ i → Σ (A i) (B i)) x y
   ΣPathP eq i = fst eq i , snd eq i
 
   -- Exercise:
   PathPΣ : PathP (λ i → Σ (A i) (B i)) x y
-         → Σ[ p ∈ PathP {!!} {!!} {!!} ] PathP {!!} {!!} {!!}
+         → Σ[ p ∈ PathP A (fst x) (fst y) ] PathP (λ i → B i (p i)) (snd x) (snd y)
   PathPΣ eq = (λ i → fst (eq i)) , (λ i → snd (eq i))
 ```
 
@@ -209,8 +210,8 @@ identical but the type improves:
 -- Exercise:
 depFunExt : {B : A → I → Type}
   {f : (x : A) → B x i0} {g : (x : A) → B x i1}
-  → ((x : A) → PathP {!!} {!!} {!!})
-  → PathP {!!} f g
+  → ((x : A) → PathP (λ i → B x i) (f x) (g x))
+  → PathP (λ i → (x : A) → B x i) f g
 depFunExt p i x = p x i
 ```
 
@@ -227,8 +228,9 @@ Square : {A : Type ℓ} {a00 a01 a10 a11 : A}
        → (a-1 : a01 ≡ a11)
        → Type ℓ
 Square a0- a1- a-0 a-1 = PathP (a-0≡a-1 a-0 a-1) a0- a1-
+-- Square a0- a1- a-0 a-1 = PathP (λ i → a-0 i ≡ a-1 i) a0- a1-
 ```
-Here's the picture again:
+Here's the picture again: 
 
              a-1
        a01 - - - > a11
@@ -238,6 +240,18 @@ Here's the picture again:
        a00 — — — > a10         ∙ — >
              a-0                 i
 
+```
+reflsquare1 : {A : Type ℓ} {a0 a1 : A}
+            → (p : a0 ≡ a1)
+            → Square refl refl p p
+reflsquare1 p = λ i j → p i
+-- p = λ i j → refl {x = p i}
+
+reflsquare2 : {A : Type ℓ} {a0 a1 : A}
+            → (p : a0 ≡ a1)
+            → Square p p refl refl
+reflsquare2 p = refl
+```
 To define interesting squares, we'll need to axiomatize a bit more
 structure from the unit interval $[0,1]$. The functions
 $max, min : [0, 1] × [0, 1] → [0, 1]$ are quite useful for constructing
@@ -255,13 +269,13 @@ definitionally.
 -- Uncomment this block and try normalising the following expressions.
 {-
 _ : I
-_ = {! i0 ∨ i0!}
+_ = {! i0 ∨ i0 ! }
 _ : I
-_ = {! i0 ∨ i1!}
+_ = {! i0 ∨ i1 ! }
 _ : I
-_ = {! i0 ∧ i0!}
+_ = {! i0 ∧ i0 ! }
 _ : I
-_ = {! i0 ∧ i1!}
+_ = {! i0 ∧ i1 ! }
 -}
 ```
 
@@ -329,29 +343,29 @@ Below we have drawn some more squares. Write them down in Cubical Agda
 below.
 
            p⁻¹
-       x - - - > x
+       y - - - > x
        ^         ^
      p |         | refl            ^
        |         |               j |
-       x — — — > y                 ∙ — >
+       x — — — > x                 ∙ — >
           refl                       i
 
 ```
 connectionEx1 : (p : x ≡ y) → Square p refl refl (sym p)
 -- Exercise
-connectionEx1 p i j = {!!}
+connectionEx1 p i j = p ( ~ i ∧ j)
 ```
             p
-        y - - - > y
+        x - - - > y
         ^         ^
     p⁻¹ |         | refl            ^
         |         |               j |
-        y — — — > x                 ∙ — >
+        y — — — > y                 ∙ — >
            refl                       i
 ```
 connectionEx2 : (p : x ≡ y) → Square (sym p) refl refl p
 -- Exercise
-connectionEx2 p i j = {!!}
+connectionEx2 p i j = p (i ∨ ~ j)
 ```
 
 Our definition of ℤ is a little janky and off kilter --- we treat the
@@ -373,11 +387,15 @@ isomorphic to the ones we had before.
 ```
 ℤ'→ℤ : ℤ' → ℤ
 -- Exercise
-ℤ'→ℤ z = {!!}
+ℤ'→ℤ (pos' x) = pos x
+ℤ'→ℤ (neg' zero) = pos zero
+ℤ'→ℤ (neg' (suc x)) = negsuc x
+ℤ'→ℤ (poszero≡negzero i) = pos zero 
 
 ℤ→ℤ' : ℤ → ℤ'
 -- Exercise
-ℤ→ℤ' z = {!!}
+ℤ→ℤ' (pos n) = {! n  !}
+ℤ→ℤ' (negsuc n) = {!   !}
 
 ℤIsoℤ' : Iso ℤ ℤ'
 -- Exercise

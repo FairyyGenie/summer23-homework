@@ -259,10 +259,12 @@ endpoints.
 ≡-× : {x y : A × B} → (fst x ≡ fst y) × (snd x ≡ snd y) → x ≡ y
 -- Exercise:
 ≡-× (p , q) i = (p i , q i )
+-- ≡-× eq i = (fst eq i ) , ( snd eq i )
 
 ≡-fst : {x y : A × B} → x ≡ y → (fst x ≡ fst y)
 -- Exercise:
 ≡-fst p = cong fst p
+-- ≡-fst p = λ i → fst (p i)
 
 ≡-snd : {x y : A × B} → x ≡ y → (snd x ≡ snd y)
 -- Exercise:
@@ -619,7 +621,7 @@ negsuc n ≡ℤ negsuc m = n ≡ℕ m
 ≡iff≡ℤ a b = (to a b) , (fro a b)
   where
     to : (x y :  ℤ) → (x ≡ y) → (x ≡ℤ y)
-    to x y p = subst (x ≡ℤ_ ) p ≡ℤ-refl
+    to x y p = subst (x ≡ℤ_ ) p (≡ℤ-refl x)
 
     fro : (x y :  ℤ) → (x ≡ℤ y) → (x ≡ y) 
     fro (pos n) (pos m) p = cong pos (≡iff≡ℕ n m .snd p)
