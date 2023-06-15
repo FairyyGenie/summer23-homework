@@ -65,10 +65,12 @@ and `y` are `true`.
 ```
 _and_ : Bool → Bool → Bool
 -- Exercise:
-true and true = true
-true and false = false
-false and true = false
-false and false = false
+-- true and true = true
+-- true and false = false
+-- false and true = false
+-- false and false = false
+true and x = x
+false and _ = false
 ```
 
 You don't have to split on all variables at once. Give a definition of
@@ -76,10 +78,12 @@ the logical "or" by case splitting only on the variable `x`:
 ```
 _or_ : Bool → Bool → Bool
 -- Exercise:
-true or true = true
-true or false = true
-false or true = true
-false or false = false
+-- true or true = true
+-- true or false = true
+-- false or true = true
+-- false or false = false
+true or y = true
+false or y = y
 ```
 
 Here is the definition of logical implication. There is a strange
