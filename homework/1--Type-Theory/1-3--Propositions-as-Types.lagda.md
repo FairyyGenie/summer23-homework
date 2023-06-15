@@ -1,7 +1,6 @@
 
 # Homework 1-3: Propositions as Types 
 ```
-{-# OPTIONS --allow-unsolved-metas #-}
 module homework.1--Type-Theory.1-3--Propositions-as-Types where
 
 open import Cubical.Foundations.Prelude
@@ -117,7 +116,7 @@ other: this is also known as "logical equivalence".
 
 ```
 _iffP_ : Type → Type → Type
-P iffP Q = (P impliesP Q) andP (Q impliesP P)
+P iffP Q = (P impliesP Q) andP (Q impliesP P) -- (P → Q) × (Q → P)
 ```
 
 We can prove that these definitions correspond correctly with the
@@ -126,13 +125,31 @@ left of the `iffP`, we use the ordinary operation on Booleans, and on
 the right, we use the corresponding operation on propostions-as-types.
 
 ```
-and→Type : (a b : Bool) → (Bool→Type (a and b)) iffP ((Bool→Type a) andP (Bool→Type b))
+and→Type : (a b : Bool) → (Bool→Type (a and b)) iffP ((Bool→Type a) andP (Bool→Type b)) -- (Bool→Type (a and b) → (Bool→Type a) × (Bool→Type b)) ×  ((Bool→Type a) × (Bool→Type) → Bool→Type (a and b))
 -- Exercise:
-and→Type a b = {!!}
+-- and→Type true b = {!   !} -- (tt ,_) , snd
+-- and→Type false b = {!   !} -- ∅-rec , fst
+fst (and→Type true true) tt = tt , tt
+fst (and→Type true false) ()
+fst (and→Type false true) ()
+fst (and→Type false false) ()
+snd (and→Type true true) p = tt
+snd (and→Type true false) ()
+snd (and→Type false true) ()
+snd (and→Type false false) ()
 
 ⇒→Type : (a b : Bool) → (Bool→Type (a ⇒ b)) iffP ((Bool→Type a) impliesP (Bool→Type b))
 -- Exercise:
-⇒→Type a b = {!!}
+-- ⇒→Type true b = {!   !} -- (λ p → λ q → p ) , λ f → f tt
+-- ⇒→Type false b = {!   !} (λ _ → ∅-rec ) , const tt
+fst (⇒→Type true true) tt tt = tt
+fst (⇒→Type true false) () y
+fst (⇒→Type false true) tt ()
+fst (⇒→Type false false) tt ()
+snd (⇒→Type true true) x = tt
+snd (⇒→Type true false) x = x tt
+snd (⇒→Type false true) x = tt
+snd (⇒→Type false false) x = tt
 ```
 
 Negation can be seen as a special case of implication: not P is the same as P implies false.
@@ -144,7 +161,8 @@ infix 3 ¬_  -- This is just to make ¬ go on the outside of most formulas
 
 -- Exercise
 not→Type : (a : Bool) → (Bool→Type (not a)) iffP (¬ Bool→Type a)
-not→Type a = {!!}
+not→Type true = (λ z _ → z) , (λ z → z tt)
+not→Type false = (λ x x' → x') , (λ x → tt)
 ```
 
 Now the logic of the propositions-as-types is not exactly the same as
@@ -157,12 +175,12 @@ following two implications:
 
 implies¬¬ : (P : Type) → P impliesP (¬ ¬ P)
 -- Exercise
-implies¬¬ P p = {!!}
+implies¬¬ P p = λ np → np p
 
 
 ¬¬¬implies¬ : (P : Type) → (¬ ¬ ¬ P) impliesP (¬ P)
 -- Exercise
-¬¬¬implies¬ P nnnp = {!!}
+¬¬¬implies¬ P nnnp = λ p → nnnp (implies¬¬ P p)
 ```
 
 One way to understand the difference between `¬ ¬ P` and `P` is that

@@ -6,9 +6,9 @@ open import Cubical.Data.Sigma.Base using (Σ ; _×_)
 
 open import homework.1--Type-Theory.1-1--Types-and-Functions
 open import homework.1--Type-Theory.1-2--Inductive-Types
-open import homework.1--Type-Theory.1-3--Propositions-as-Types hiding (¬_)
-open import homework.2--Paths-and-Identifications.2-1--Paths
-open import homework.2--Paths-and-Identifications.2-2--Path-Algebra-and-J
+open import homework-solutions.1--Type-Theory.1-3--Propositions-as-Types hiding (¬_)
+open import homework-solutions.2--Paths-and-Identifications.2-1--Paths
+open import homework-solutions.2--Paths-and-Identifications.2-2--Path-Algebra-and-J
 open import homework.Library.Univalence
 open import homework.2--Paths-and-Identifications.2-4--Composition-and-Filling
 open import homework.Library.EquationalReasoning

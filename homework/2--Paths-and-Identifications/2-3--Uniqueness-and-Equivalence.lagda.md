@@ -4,7 +4,7 @@ module homework.2--Paths-and-Identifications.2-3--Uniqueness-and-Equivalence whe
 
 open import Cubical.Core.Primitives
 
-open import Cubical.Foundations.Function using (idfun; _∘_; const)
+open import Cubical.Foundations.Function using (idfun; _∘_; const; _$_)
 open import Cubical.Data.Sigma.Base using (_×_)
 
 open import homework.1--Type-Theory.1-2--Inductive-Types
@@ -90,7 +90,13 @@ isContrSingl : (a : A) → isContr (singl a)
 isContrSingl a = (a , refl) , contract
   where
     contract : (y : singl a) → (a , refl) ≡ y
-    contract (x , p) = {!!}
+    contract (x , p) = λ i → (p i , λ j → p (i ∧ j))
+
+J' : {a : A} (motive : singl a → Type ℓ)
+    (r : motive (a , refl))
+    -------------------------
+    → (x : singl a) → motive x
+J' {a = a} motive r x = subst motive (contraction (isContrSingl a) x) r 
 ```
 
 We show that our type `⊤`, which was defined to have only a single
@@ -99,7 +105,11 @@ element `tt : ⊤`, is contractible.
 ```
 isContr⊤ : isContr ⊤
 -- Exercise
-isContr⊤ = {!!}
+isContr⊤ = tt , contract
+-- isContr⊤ = tt , λ {tt → refl}
+  where
+    contract : (y : ⊤) → tt ≡ y
+    contract tt = refl
 ```
 
 Any two contractible types are isomorphic. As a corollary, any
@@ -227,7 +237,8 @@ isContrSingl' : {A : Type} (a : A) → isContr (singl' a)
 isContrSingl' a = (a , refl) , contract
   where
     contract : (y : singl' a) → (a , refl) ≡ y
-    contract (x , p) i = {!!}
+    fst (contract (x , p) i) = p (~ i)
+    snd (contract (x , p) i) j = p ( ~ i ∨ j )
 
 idIsEquiv : (A : Type) → isEquiv (idfun A)
 idIsEquiv A = λ y → isContrSingl' y
@@ -240,17 +251,22 @@ idEquiv A = idfun A , idIsEquiv A
 From any equivalence, we can extract an isomorphism.
 ```
 inv : {A B : Type} → A ≃ B → B → A
-inv e b = fst (center (snd e b))
+inv (e , is-equiv) b = fst(fst(is-equiv b)) 
+-- inv e b = fst (center (snd e b))
 
 equivToIso : {A B : Type} → A ≃ B → Iso A B
 -- Exercise
-equivToIso e = iso (fst e) (inv e) (s e) (r e)
+equivToIso (e , is-equiv) = iso e (inv (e , is-equiv)) s r
+-- equivToIso e = iso (fst e) (inv e) (s e) (r e)
   where
-    s : (e : A ≃ B) → section (fst e) (inv e)
-    s (e , is-equiv) y = {!!}
+    s : section e (inv (e , is-equiv))
+    s y = is-equiv y .fst .snd
 
-    r : (e : A ≃ B) → retract (fst e) (inv e)
-    r (e , is-equiv) x i = {!!}
+    -- s : (e : A ≃ B) → section (fst e) (inv e)
+    -- s (e , is-equiv) y = {!!}
+
+    r : retract e (inv (e , is-equiv))
+    r x = cong fst $ ( contraction $ is-equiv ( e x ) ) ((x , refl))
 ```
 
 There is in fact a way to turn an iso into an equivalence as well, but
