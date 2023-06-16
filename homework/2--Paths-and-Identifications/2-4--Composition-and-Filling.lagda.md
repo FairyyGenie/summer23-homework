@@ -757,5 +757,5 @@ isContrisContr≡ : {A : Type ℓ} (c : isContr A) (a b : A) → isContr (a ≡ 
 -- Hint: You should use an `hcomp` for both halves. Draw them out!
 -- Hint 2: In the second component, you only need three sides of a cube.
 fst (isContrisContr≡ (c₀ , c) a b) i = hcomp (λ { j (i = i0) → c a j ; j (i = i1) → c b j }) c₀ 
-snd (isContrisContr≡ (c₀ , c) a b) p i j = {!!} 
+snd (isContrisContr≡ (c₀ , c) a b) p i j = hcomp (λ { k (i = i1) → c (p j) k ; k (j = i0) → c a k ; k (j = i1) → c b k }) c₀
 ```

@@ -4,7 +4,7 @@ module homework.2--Paths-and-Identifications.2-5--Propositions where
 
 open import Cubical.Data.Sigma.Base using (Σ ; _×_)
 
-open import homework.1--Type-Theory.1-1--Types-and-Functions
+open import homework.1--Type-Theory.1-1--Types-and-Functions 
 open import homework.1--Type-Theory.1-2--Inductive-Types
 open import homework.1--Type-Theory.1-3--Propositions-as-Types hiding (¬_)
 open import homework-solutions.2--Paths-and-Identifications.2-1--Paths
@@ -408,7 +408,7 @@ When `P` is already a proposition, truncating it should do nothing:
 ```
 isProp→equiv∃ : isProp P → Iso P (∃ P)
 -- Exercise
-isProp→equiv∃ isPropP = ?
+isProp→equiv∃ isPropP = {!   !}
 ```
 
 If `P : A → Type` is a family of propositions on `A` --- that is, a
