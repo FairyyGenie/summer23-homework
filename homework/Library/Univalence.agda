@@ -115,3 +115,4 @@ isoToPath : Iso A B → A ≡ B
 isoToPath {A = A} {B = B} f i =
   Glue B (λ { (i = i0) → (A , isoToEquiv f)
             ; (i = i1) → (B , idEquiv B) })
+ 
