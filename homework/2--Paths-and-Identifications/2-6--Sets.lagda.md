@@ -4,15 +4,15 @@ module homework.2--Paths-and-Identifications.2-6--Sets where
 
 open import Cubical.Data.Sigma.Base using (Σ ; _×_)
 open import Cubical.Foundations.Function using (_∘_; _$_)
-open import homework.1--Type-Theory.1-1--Types-and-Functions hiding (_∘_)
-open import homework.1--Type-Theory.1-2--Inductive-Types
-open import homework.1--Type-Theory.1-3--Propositions-as-Types hiding (¬_)
-open import homework.2--Paths-and-Identifications.2-1--Paths hiding (cong)
-open import homework.2--Paths-and-Identifications.2-2--Path-Algebra-and-J
-open import homework.Library.Univalence
-open import homework.2--Paths-and-Identifications.2-4--Composition-and-Filling
-open import homework.2--Paths-and-Identifications.2-5--Propositions
-open import homework.Library.EquationalReasoning
+open import homework-solutions.1--Type-Theory.1-1--Types-and-Functions hiding (_∘_)
+open import homework-solutions.1--Type-Theory.1-2--Inductive-Types
+open import homework-solutions.1--Type-Theory.1-3--Propositions-as-Types hiding (¬_)
+open import homework-solutions.2--Paths-and-Identifications.2-1--Paths hiding (cong)
+open import homework-solutions.2--Paths-and-Identifications.2-2--Path-Algebra-and-J
+open import homework-solutions.Library.Univalence
+open import homework-solutions.2--Paths-and-Identifications.2-4--Composition-and-Filling
+open import homework-solutions.2--Paths-and-Identifications.2-5--Propositions
+open import homework-solutions.Library.EquationalReasoning
 
 private
   variable
@@ -344,6 +344,8 @@ contains a point `base` and a path `loop` which goes from `base` to
 data S¹ : Type where
   base : S¹
   loop : base ≡ base
+
+-- data Bouquet (A : Type ℓ)
 ```
 
 To show that `S¹` is not a set, we can define its "double cover" - a

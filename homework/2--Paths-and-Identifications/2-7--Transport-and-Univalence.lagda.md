@@ -4,14 +4,14 @@ module homework.2--Paths-and-Identifications.2-7--Transport-and-Univalence where
 
 open import Cubical.Data.Sigma.Base
 
-open import homework.1--Type-Theory.1-1--Types-and-Functions
-open import homework.1--Type-Theory.1-2--Inductive-Types
-open import homework.1--Type-Theory.1-3--Propositions-as-Types
-open import homework.2--Paths-and-Identifications.2-1--Paths hiding (cong)
-open import homework.2--Paths-and-Identifications.2-2--Path-Algebra-and-J
-open import homework.Library.Univalence
-open import homework.2--Paths-and-Identifications.2-4--Composition-and-Filling
-open import homework.2--Paths-and-Identifications.2-5--Propositions
+open import homework-solutions.1--Type-Theory.1-1--Types-and-Functions
+open import homework-solutions.1--Type-Theory.1-2--Inductive-Types
+open import homework-solutions.1--Type-Theory.1-3--Propositions-as-Types
+open import homework-solutions.2--Paths-and-Identifications.2-1--Paths hiding (cong)
+open import homework-solutions.2--Paths-and-Identifications.2-2--Path-Algebra-and-J
+open import homework-solutions.Library.Univalence
+open import homework-solutions.2--Paths-and-Identifications.2-4--Composition-and-Filling
+open import homework-solutions.2--Paths-and-Identifications.2-5--Propositions
 open import homework.2--Paths-and-Identifications.2-6--Sets
 open import homework.Library.EquationalReasoning
 

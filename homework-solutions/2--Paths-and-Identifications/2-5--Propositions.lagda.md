@@ -3,8 +3,8 @@
 module homework-solutions.2--Paths-and-Identifications.2-5--Propositions where
 
 open import Cubical.Data.Sigma.Base using (Σ ; _×_)
-
-open import homework-solutions.1--Type-Theory.1-1--Types-and-Functions
+open import Cubical.Foundations.Function using (_∘_; _$_)
+open import homework-solutions.1--Type-Theory.1-1--Types-and-Functions hiding (_∘_)
 open import homework-solutions.1--Type-Theory.1-2--Inductive-Types
 open import homework-solutions.1--Type-Theory.1-3--Propositions-as-Types hiding (¬_)
 open import homework-solutions.2--Paths-and-Identifications.2-1--Paths
@@ -421,8 +421,8 @@ functions between types to functions between their truncations. If we have a fun
 ```
 ∃-map : (A → B) → (∃ A → ∃ B)
 -- Exercise
--- ∃-map f = ?
 ∃-map f = ∃-rec isProp-∃ (∣_∣ ∘ f)
+-- ∃-map f = ∃-rec isProp-∃ (∣_∣ ∘ f)
 ```
 
 When `P` is already a proposition, truncating it should do nothing:

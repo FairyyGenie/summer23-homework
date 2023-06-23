@@ -410,7 +410,7 @@ functions between types to functions between their truncations. If we have a fun
 ```
 ∃-map : (A → B) → (∃ A → ∃ B)
 -- Exercise
-∃-map f = {!!}
+∃-map f = {!   !}
 ```
 
 When `P` is already a proposition, truncating it should do nothing:
